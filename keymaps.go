@@ -121,11 +121,11 @@ func (m KeyMaps) textActionHandler(fn func(string) string) func(typi ...interfac
 		//
 
 		typ := ""
-		if len(typi) == 1 {
-			typ, _ = typi[0].(string)
-		} else {
+		if len(typi) != 1 {
 			return
 		}
+
+		typ, _ = typi[0].(string)
 
 		sel := ""
 		if regexp.MustCompile(`^\d+$`).MatchString(typ) {
@@ -139,10 +139,11 @@ func (m KeyMaps) textActionHandler(fn func(string) string) func(typi ...interfac
 		} else if typ == "line" {
 			// line-based text motion
 			sel = "'[V']y"
+
 		} else if typ == "line" {
 			// block-based text motion
-			// let sel = "`[\<C-V>`]y"
 			sel = "`[\\<C-V>`]y"
+
 		} else { // == "char"
 			// char-based text motion
 			sel = "`[v`]y"

@@ -7,7 +7,6 @@ import (
 )
 
 type Plugin interface {
-	Register(api RegisterApi)
 	Activate(api *Api)
 }
 
