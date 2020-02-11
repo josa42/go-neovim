@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime/debug"
 
 	"github.com/neovim/go-client/nvim"
 	"github.com/neovim/go-client/nvim/plugin"
 )
 
 type RegisterApi interface {
-	On(event, pattern string, fn interface{})
 	Function(name string, fn interface{})
 }
 
@@ -71,34 +71,18 @@ func (api *Api) Cwd() string {
 	return cwd
 }
 
-func (api *Api) On(event, pattern string, fn interface{}) {
+func (api *Api) on(event, pattern string, fn func()) {
 	api.p.HandleAutocmd(&plugin.AutocmdOptions{Event: event, Pattern: pattern}, wrapEventHandler(fn))
 }
 
-func wrapEventHandler(fn interface{}) interface{} {
-	if fn, ok := fn.(func()); ok {
-		return func() {
-			defer func() {
-				if err := recover(); err != nil {
-					log.Printf("handler recover: %v\n", err)
-				}
-			}()
-			fn()
-		}
+func wrapEventHandler(fn func()) interface{} {
+	return func() {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Printf("handler recover (1): %v\n", err)
+				log.Println(string(debug.Stack()))
+			}
+		}()
+		fn()
 	}
-
-	if fn, ok := fn.(func() error); ok {
-		return func() error {
-			defer func() {
-				if err := recover(); err != nil {
-					log.Printf("handler recover: %v\n", err)
-				}
-			}()
-			return fn()
-		}
-	}
-
-	log.Printf("Unknown handler function type\n")
-
-	return fn
 }

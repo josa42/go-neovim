@@ -29,19 +29,19 @@ func newRegistry(api *Api) *registry {
 		api:     api,
 	}
 
-	api.On(EventBufDelete, "*", func() {
+	api.on(EventBufDelete, "*", func() {
 		r.garbadgeCollect(RegistryTypeBuffer)
 	})
 
-	api.On(EventBufWipeout, "*", func() {
+	api.on(EventBufWipeout, "*", func() {
 		r.garbadgeCollect(RegistryTypeBuffer)
 	})
 
-	api.On(EventTabClosed, "*", func() {
+	api.on(EventTabClosed, "*", func() {
 		r.garbadgeCollect(RegistryTypeTab)
 	})
 
-	api.On(EventBufWinLeave, "*", func() {
+	api.on(EventBufWinLeave, "*", func() {
 		r.garbadgeCollect(RegistryTypeWindow)
 	})
 

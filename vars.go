@@ -1,6 +1,8 @@
 package neovim
 
-import "github.com/neovim/go-client/nvim"
+import (
+	"github.com/neovim/go-client/nvim"
+)
 
 type Vars struct {
 	get    func(name string, result interface{}) error
