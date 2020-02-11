@@ -74,6 +74,22 @@ func (b *Buffer) Path() string {
 	return path
 }
 
+func (b *Buffer) Windows() []*Window {
+	bufferWindows := []*Window{}
+
+	wins, _ := b.api.nvim().Windows()
+	for _, win := range wins {
+		wb, _ := b.api.nvim().WindowBuffer(win)
+		if wb == b.id {
+			if bwin, found := b.api.WindowById(int(win)); found {
+				bufferWindows = append(bufferWindows, bwin)
+			}
+		}
+	}
+
+	return bufferWindows
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Options
 
