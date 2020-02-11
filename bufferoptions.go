@@ -146,7 +146,6 @@ func (o *BufferOptions) getString(name StringOption) string {
 
 func (o *BufferOptions) setString(name StringOption, value string) {
 	o.api.nvim().SetBufferOption(o.bufferID, string(name), value)
-	// o.api.nvim().
 }
 
 func (o *BufferOptions) getBool(name BoolOption) bool {
