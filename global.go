@@ -2,7 +2,6 @@ package neovim
 
 import (
 	"fmt"
-	"log"
 )
 
 type Global struct {
@@ -24,7 +23,6 @@ func newGlobal(api *Api) Global {
 func (g *Global) On(event string, fn func()) {
 	handler := g.api.Handler.Create(fn)
 	groupName := fmt.Sprintf("global_%s", handler.uuid)
-	log.Printf("augroup %s | autocmd %s * call %s | augroup END", groupName, event, handler)
 	g.api.Executef("augroup %s | autocmd %s * call %s | augroup END", groupName, event, handler)
 }
 
