@@ -74,7 +74,7 @@ func (api *Api) on(event, pattern string, fn func()) {
 }
 
 func wrapEventHandler(fn func()) interface{} {
-	return func() {
+	return func() error {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Printf("handler recover (1): %v\n", err)
@@ -82,5 +82,6 @@ func wrapEventHandler(fn func()) interface{} {
 			}
 		}()
 		fn()
+		return nil
 	}
 }
