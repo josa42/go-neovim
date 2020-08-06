@@ -24,7 +24,7 @@ func Register(p Plugin) {
 			p.Register(api)
 		}
 
-		// TODO find a better solution to call the Axctivate hook
+		// TODO find a better solution to call the Activate hook
 		go func() {
 			time.Sleep(10 * time.Millisecond)
 			p.Activate(api)

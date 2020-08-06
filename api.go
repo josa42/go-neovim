@@ -51,8 +51,6 @@ func (api *Api) nvim() *nvim.Nvim {
 	return api.p.Nvim
 }
 
-// }
-
 func (api *Api) Execute(cmd string) (string, error) {
 	return api.nvim().CommandOutput(cmd)
 }
