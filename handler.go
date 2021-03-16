@@ -3,13 +3,13 @@ package neovim
 import (
 	"crypto/rand"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"strings"
 
 	"github.com/josa42/go-neovim/disposables"
-	"github.com/kardianos/osext"
 )
+
+var uuid string
 
 type HandlerFunc struct {
 	uuid         string
@@ -136,18 +136,8 @@ func (h *Handler) functionName() string {
 
 // TODO Find a better way to generate and store uuid
 func readHandlerUUID() string {
-	executable, _ := osext.Executable()
-	uuidFile := fmt.Sprintf("%s.uuid", executable)
-
-	content, _ := ioutil.ReadFile(uuidFile)
-	uuid := string(content)
-
 	if uuid == "" {
-		b := make([]byte, 16)
-		rand.Read(b)
 		uuid = generateUUID()
-
-		ioutil.WriteFile(uuidFile, []byte(uuid), 0777)
 	}
 
 	return uuid

@@ -14,8 +14,11 @@ type Registerable interface {
 	Register(api RegisterApi)
 }
 
-func Register(p Plugin) {
+func SetUUID(u string) {
+	uuid = u
+}
 
+func Register(p Plugin) {
 	plugin.Main(func(np *plugin.Plugin) error {
 		api := newApiWithPlugin(np)
 		api.Handler.register(api)
