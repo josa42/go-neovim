@@ -108,7 +108,7 @@ func (t *TreeView) Initialize(b *neovim.Buffer, api *neovim.Api) {
 
 	})
 
-	nopKeyMaps := []string{"i", "a", "v", "V", "<C>", "<Leader>", "<C-v>", "<C-0>", "h", "l", "<Left>", "<Right>", "0", "$", "^"}
+	nopKeyMaps := []string{"i", "a", "v", "V", "<C>", "<C-v>", "<C-0>", "h", "l", "<Left>", "<Right>", "0", "$", "^"}
 
 	for _, m := range nopKeyMaps {
 		b.KeyMaps.Disable(neovim.ModeAll, m)
