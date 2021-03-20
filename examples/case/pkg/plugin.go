@@ -6,7 +6,10 @@ import (
 	"github.com/josa42/go-neovim"
 )
 
+var uuid string
+
 func main() {
+	neovim.SetUUID(uuid)
 	neovim.Register(&plugin{})
 }
 
@@ -22,4 +25,3 @@ func (p *plugin) Activate(api *neovim.Api) {
 		return strings.ToLower(s)
 	})
 }
-

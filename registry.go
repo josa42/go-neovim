@@ -3,6 +3,7 @@ package neovim
 import (
 	"log"
 	"sync"
+	"time"
 )
 
 const (
@@ -29,21 +30,30 @@ func newRegistry(api *Api) *registry {
 		api:     api,
 	}
 
-	api.on(EventBufDelete, "*", func() {
-		r.garbadgeCollect(RegistryTypeBuffer)
-	})
+	// api.on(EventBufDelete, "*", func() {
+	// 	r.garbadgeCollect(RegistryTypeBuffer)
+	// })
+	//
+	// api.on(EventBufWipeout, "*", func() {
+	// 	r.garbadgeCollect(RegistryTypeBuffer)
+	// })
+	//
+	// api.on(EventTabClosed, "*", func() {
+	// 	r.garbadgeCollect(RegistryTypeTab)
+	// })
+	//
+	// api.on(EventBufWinLeave, "*", func() {
+	// 	r.garbadgeCollect(RegistryTypeWindow)
+	// })
+	go func() {
+		for true {
+			time.Sleep(10 * time.Second)
 
-	api.on(EventBufWipeout, "*", func() {
-		r.garbadgeCollect(RegistryTypeBuffer)
-	})
-
-	api.on(EventTabClosed, "*", func() {
-		r.garbadgeCollect(RegistryTypeTab)
-	})
-
-	api.on(EventBufWinLeave, "*", func() {
-		r.garbadgeCollect(RegistryTypeWindow)
-	})
+			r.garbadgeCollect(RegistryTypeWindow)
+			r.garbadgeCollect(RegistryTypeTab)
+			r.garbadgeCollect(RegistryTypeBuffer)
+		}
+	}()
 
 	// go func() {
 	// 	for true {
